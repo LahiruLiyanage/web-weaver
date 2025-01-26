@@ -46,6 +46,29 @@ public class WebWeaverServerApp {
                             return;
                         }
 
+                        String[] cmdArray = commandLine.split(" ");
+                        if (cmdArray.length < 2) {
+                            String response = """
+                                    HTTP/1.1 400 Bad Request
+                                    Server: web-weaver/0.1.0
+                                    Date: %s
+                                    Content-Type: text/html
+                                    
+                                    <!DOCTYPE html>
+                                    <html>
+                                    <head>
+                                    <title>Web Weaver | 400 Bad Request</title>
+                                    </head>
+                                    <body>
+                                    <h1>Web Weaver | 400 Bad Request</h1>
+                                    </body>
+                                    </html>
+                                    """.formatted(LocalDateTime.now());
+                            os.write(response.getBytes());
+                            os.flush();
+                            return;
+                        }
+
 
 
                     } catch (IOException e) {
