@@ -69,6 +69,63 @@ public class WebWeaverServerApp {
                             return;
                         }
 
+                        String cmd = cmdArray[0];
+                        String resourcePath = cmdArray[1];
+
+                        /* Validating the HTTP */
+                        if (!cmd.equalsIgnoreCase("GET")) {
+                            String response = """
+                                    HTTP/1.1 405 Method Not Allowed
+                                    Server: web-weaver/0.1.0
+                                    Date: %s
+                                    Content-Type: text/html
+                                    
+                                    <!DOCTYPE html>
+                                    <html>
+                                    <head>
+                                    <title>Web Weaver | 405 Method Not Allowed</title>
+                                    </head>
+                                    <body>
+                                    <h1>Web Weaver | 405 Method Not Allowed</h1>
+                                    </body>
+                                    </html>
+                                    """.formatted(LocalDateTime.now());
+                            os.write(response.getBytes());
+                            os.flush();
+                            return;
+                        }
+
+                        /* Reading the Headers */
+                        String host = null;
+                        String line;
+                        while ((line = br.readLine()) != null && !line.isBlank()) {
+                            if (line.toLowerCase().startsWith("host:")) {
+                                host = line.substring(5).trim();
+                            }
+                        }
+
+                        if (host == null) {
+                            String response = """
+                                    HTTP/1.1 400 Bad Request
+                                    Server: web-weaver/0.1.0
+                                    Date: %s
+                                    Content-Type: text/html
+                                    
+                                    <!DOCTYPE html>
+                                    <html>
+                                    <head>
+                                    <title>Web Weaver | 400 Bad Request</title>
+                                    </head>
+                                    <body>
+                                    <h1>Web Weaver | 400 Bad Request</h1>
+                                    </body>
+                                    </html>
+                                    """.formatted(LocalDateTime.now());
+                            os.write(response.getBytes());
+                            os.flush();
+                            return;
+                        }
+
 
 
                     } catch (IOException e) {
