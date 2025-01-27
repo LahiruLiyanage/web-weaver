@@ -3,6 +3,8 @@ package lk.ijse.dep13.server.webweaver;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
@@ -157,6 +159,31 @@ public class WebWeaverServerApp {
                             os.flush();
                             return;
                         }
+
+                        /* Serving File */
+                        String contentType = Files.probeContentType(filePath);
+                        String headerResponse = """
+                                HTTP/1.1 200 OK
+                                Server: web-weaver/0.1.0
+                                Date: %s
+                                Content-Type: %s
+                                Content-Length: %d
+                                
+                                """.formatted(LocalDateTime.now(), contentType, Files.size(filePath));
+                        os.write(headerResponse.getBytes());
+
+                        try {
+                            FileChannel fileChannel = FileChannel.open(filePath);
+                            ByteBuffer buffer = ByteBuffer.allocate(1024);
+                            while (fileChannel.read(buffer) != -1) {
+                                buffer.flip();
+                                os.write(buffer.array(), 0, buffer.limit());
+                                buffer.clear();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        os.flush();
 
                     } catch (IOException e) {
                         throw new RuntimeException(e);
