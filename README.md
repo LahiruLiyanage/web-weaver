@@ -1,6 +1,6 @@
 # WebWeaver
 
-Welcome to **WebWeaver**, a custom web server designed to demonstrate proficiency with HTTP protocols. This project is a practical implementation of core HTTP concepts and showcases the ability to handle and redirect HTTP requests effectively.
+The **WebWeaver** server listens on port 80 and handles incoming HTTP requests. It parses the request headers, validates the HTTP method, and serves the appropriate content. If the requested resource is not found or the method is unsupported, the server responds with an error page. By modifying the system's /etc/hosts file or using a proxy configuration, requests to http://google.com are redirected to the WebWeaver server.
 
 ---
 
@@ -8,6 +8,8 @@ Welcome to **WebWeaver**, a custom web server designed to demonstrate proficienc
 
 - **Custom HTTP Request Handling**: Processes GET, POST, and other HTTP methods.
 - **URL Redirection**: Redirects `http://google.com` to the WebWeaver server when running.
+- **Dynamic File Serving**: Serves files based on incoming requests and resource paths.
+- **Error Handling**: Responds with appropriate HTTP error codes (e.g., 400, 404, 405).
 - **Platform Compatibility**: Built and tested on Ubuntu.
 - **Educational Purpose**: Ideal for understanding and demonstrating HTTP server concepts.
 
