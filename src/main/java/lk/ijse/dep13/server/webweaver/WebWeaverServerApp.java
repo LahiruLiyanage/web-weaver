@@ -195,6 +195,7 @@ public class WebWeaverServerApp {
                         throw new RuntimeException(e);
                     }
                 }).start();
+                serverSocket.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
