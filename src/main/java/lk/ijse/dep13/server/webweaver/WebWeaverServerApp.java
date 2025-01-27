@@ -182,6 +182,12 @@ public class WebWeaverServerApp {
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
+                        } finally {
+                            try {
+                                clientSocket.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                         os.flush();
 
