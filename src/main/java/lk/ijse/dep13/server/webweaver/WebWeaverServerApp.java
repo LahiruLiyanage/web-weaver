@@ -3,6 +3,8 @@ package lk.ijse.dep13.server.webweaver;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 
 public class WebWeaverServerApp {
@@ -106,7 +108,7 @@ public class WebWeaverServerApp {
 
                         if (host == null) {
                             String response = """
-                                    HTTP/1.1 400 Bad Request
+                                    HTTP/1.1 400 Bad Request : Missing host Header
                                     Server: web-weaver/0.1.0
                                     Date: %s
                                     Content-Type: text/html
@@ -114,10 +116,10 @@ public class WebWeaverServerApp {
                                     <!DOCTYPE html>
                                     <html>
                                     <head>
-                                    <title>Web Weaver | 400 Bad Request</title>
+                                    <title>Web Weaver | 400 Bad Request : Missing host Header</title>
                                     </head>
                                     <body>
-                                    <h1>Web Weaver | 400 Bad Request</h1>
+                                    <h1>Web Weaver | 400 Bad Request : Missing host Header</h1>
                                     </body>
                                     </html>
                                     """.formatted(LocalDateTime.now());
@@ -126,7 +128,35 @@ public class WebWeaverServerApp {
                             return;
                         }
 
+                        /* File Path */
+                        Path filePath;
+                        if (resourcePath.equals("/")) {
+                            filePath = Path.of("http" , host , "index.html");
+                        } else {
+                            filePath = Path.of("http", host , resourcePath.substring(1));
+                        }
 
+                        if (!Files.exists(filePath)) {
+                            String response = """
+                                    HTTP/1.1 404 Not Found
+                                    Server: web-weaver/0.1.0
+                                    Date: %s
+                                    Content-Type: text/html
+                                    
+                                    <!DOCTYPE html>
+                                    <html>
+                                    <head>
+                                    <title>Web Weaver | 404 Not Found</title>
+                                    </head>
+                                    <body>
+                                    <h1>Web Weaver | 404 Not Found</h1>
+                                    </body>
+                                    </html>
+                                    """.formatted(LocalDateTime.now());
+                            os.write(response.getBytes());
+                            os.flush();
+                            return;
+                        }
 
                     } catch (IOException e) {
                         throw new RuntimeException(e);
