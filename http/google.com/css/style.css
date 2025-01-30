@@ -40,10 +40,19 @@ body {
             #g-apps {
                 width: 40px;
                 height: 40px;
+                padding: 8px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                border: 1px solid black;
+                cursor: pointer;
+                border-radius: 50%;
+                margin: 0 4px;
+                transition: background-color 0.3s ease-in-out;
+
+                &:hover {
+                    transform: none;
+                    background-color: rgba(60,64,67,0.08);
+                }
 
                 img {
                     width: 22px;
