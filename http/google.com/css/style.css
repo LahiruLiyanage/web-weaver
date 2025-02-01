@@ -8,9 +8,9 @@
 body {
     display: grid;
     grid-template-areas:
-        "header header header"
-        "main main main"
-        "footer footer footer";
+        "header"
+        "main"
+        "footer";
     font-family: arial, sans-serif;
     height: 100vh;
     min-height: 100vh;
