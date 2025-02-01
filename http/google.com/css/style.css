@@ -6,15 +6,23 @@
 }
 
 body {
+    display: grid;
+    grid-template-areas:
+        "header header header"
+        "main main main"
+        "footer footer footer";
     font-family: arial, sans-serif;
     height: 100vh;
-    display: flex;
-    flex-direction: column;
     min-height: 100vh;
 
     header {
         height: 60px;
         padding: 6px;
+        border: 1px solid black;
+        justify-content: end;
+        align-items: end;
+        width: 100%;
+
 
         .header-nav {
             display: flex;
