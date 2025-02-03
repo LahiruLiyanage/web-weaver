@@ -19,10 +19,10 @@ body {
     header {
         padding: 6px;
         border: 1px solid black;
-        justify-content: end;
         align-items: end;
+        justify-content: center;
         width: 100%;
-
+        /*background-color: lightgray;*/
 
         .header-nav {
             display: flex;
@@ -90,9 +90,8 @@ body {
     }
 
     main {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        justify-items: center;
+        align-content: start;
         padding-top: calc(25vh - 48px);
         flex: 1;
     }
